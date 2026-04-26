@@ -24,14 +24,14 @@ This is not a complete operating system yet. It is the graphical shell prototype
 Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/MerStal-OS.git
+git clone https://github.com/Meronto/MerStal-OS.git
 cd MerStal-OS
 ```
 
 If you use SSH:
 
 ```bash
-git clone git@github.com:YOUR_USERNAME/MerStal-OS.git
+git clone git@github.com:Meronto/MerStal-OS.git
 cd MerStal-OS
 ```
 
