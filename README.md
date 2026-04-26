@@ -35,8 +35,6 @@ git clone git@github.com:Meronto/MerStal-OS.git
 cd MerStal-OS
 ```
 
-Replace `YOUR_USERNAME` with your GitHub username.
-
 ## Dependencies
 
 ### Debian / Ubuntu
