@@ -1,0 +1,30 @@
+# Build directories
+build/
+cmake-build-*/
+out/
+
+#CMake generated files
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+compile_commands.json
+
+#Compiler generated files
+*.o
+*.obj
+*.out
+*.exe
+
+#Editor generated files
+*.swp
+*.swo
+.zed/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+#Local generated files
+.env
+*.log
