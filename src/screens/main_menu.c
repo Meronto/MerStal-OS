@@ -1,6 +1,7 @@
 #include "main_menu.h"
 #include "../config.h"
 #include <SDL3/SDL_events.h>
+#include <SDL3/SDL_gamepad.h>
 #include <SDL3/SDL_keycode.h>
 #include <SDL3/SDL_log.h>
 #include <SDL3/SDL_oldnames.h>
@@ -19,9 +20,12 @@ static const char *menu_items[] = {
 };
 
 static const int menu_count = 5;
+static const int selectable_count = 6;
 static int selected_item = 0;
 static SDL_Texture *button_normal = NULL;
 static SDL_Texture *button_selected = NULL;
+static SDL_Texture *button_off = NULL;
+static SDL_Texture *button_off_selected = NULL;
 static TTF_Font *font = NULL;
 
 static void draw_text(SDL_Renderer *renderer, TTF_Font *font, const char *text, SDL_FRect rect) {
@@ -36,8 +40,10 @@ static void draw_text(SDL_Renderer *renderer, TTF_Font *font, const char *text, 
 void main_menu_init(SDL_Renderer *renderer){
     button_normal = IMG_LoadTexture(renderer, "src/assets/texture/button_texture.png");
     button_selected = IMG_LoadTexture(renderer, "src/assets/texture/button_texture_active.png");
+    button_off = IMG_LoadTexture(renderer, "src/assets/texture/button_off.png");
+    button_off_selected = IMG_LoadTexture(renderer, "src/assets/texture/button_off_select.png");
     font = TTF_OpenFont("src/assets/fonts/IBMPlexMono-Regular.ttf", 24);
-    if (!button_normal || !button_selected || !font) {
+    if (!button_normal || !button_selected || !button_off || !button_off_selected || !font) {
      SDL_Log("Failed to load button textures: %s\n", SDL_GetError());
     }
 }
@@ -45,6 +51,8 @@ void main_menu_init(SDL_Renderer *renderer){
 void main_menu_cleanup(void){
     SDL_DestroyTexture(button_normal);
     SDL_DestroyTexture(button_selected);
+    SDL_DestroyTexture(button_off);
+    SDL_DestroyTexture(button_off_selected);
     TTF_CloseFont(font);
 }
 
@@ -53,18 +61,51 @@ void main_menu_handle_event(SDL_Event *event){
         if (event->key.key == SDLK_LEFT) {
             selected_item--;
             if (selected_item < 0){
-                selected_item = menu_count -1;
+                selected_item = selectable_count - 1;
             }
 
         }
         if (event->key.key == SDLK_RIGHT){
             selected_item++;
-            if (selected_item >= menu_count){
+            if (selected_item >= selectable_count){
                 selected_item = 0;
-    }
-
+            }
         }
-    printf("selected: %d\n", selected_item);
+        if (event->key.key == SDLK_RETURN) {
+            switch (selected_item) {
+                case 0: {
+
+                }
+
+                    break;
+                case 1: {
+
+                }
+
+                    break;
+                case 2: {
+
+                }
+
+                    break;
+                case 3: {
+
+                }
+
+                    break;
+                case 4: {
+
+                }
+
+                    break;
+                case 5: {
+                    SDL_Event quit_event;
+                    quit_event.type = SDL_EVENT_QUIT;
+                    SDL_PushEvent(&quit_event);
+                    break;
+                }
+            }
+        }
     }
 
 }
@@ -79,7 +120,7 @@ void main_menu_render(SDL_Renderer *renderer){
     SDL_FRect top_bar = {
         .x = 20.0f,
         .y = 20.0f,
-        .w = 760.0f,
+        .w = 800.0f,
         .h = 50.0f
     };
     SDL_SetRenderDrawColor(renderer,31,33,33,255);
@@ -105,6 +146,18 @@ void main_menu_render(SDL_Renderer *renderer){
         };
         draw_text(renderer, font, menu_items[i], text_rect);
         SDL_RenderRect(renderer,&button);
+    }
+
+    SDL_FRect button_off_texture = {
+        .x = 760.0f,
+        .y = 27.0f,
+        .w = 36.0f,
+        .h = 36.0f
+    };
+    if (selected_item == selectable_count - 1){
+        SDL_RenderTexture(renderer, button_off_selected, NULL, &button_off_texture);
+    } else {
+        SDL_RenderTexture(renderer, button_off, NULL, &button_off_texture);
     }
     SDL_FRect content = {
         .x = 20.0f,
